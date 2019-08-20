@@ -1,0 +1,59 @@
+title: Feelz P - BiFactor Model with reduced scales
+
+  data:		file = ftp10.csv;
+
+  variable:	
+  	names= ID cdi scared ptsd	
+  	att rule agg;
+  		
+  	usevar= cdi scared	
+  	!ptsd
+  	att rule agg;
+  	
+  	IDVARIABLE = ID;
+
+      CATEGORICAL ARE
+           cdi scared  att rule agg;
+  	!ptsd
+  	missing = .;
+
+  analysis: 	
+  	
+  	type =  general;
+  	estimator = MLR;
+  	iterations = 10000;
+  	CONVERGENCE = .00005;
+  	MODEL = NOCOVARIANCES;
+  	
+  MODEL:
+  		
+  	P by
+  		cdi*   		(1)
+  		att		(2)
+  		rule	(3)
+  		agg	(4)
+  	    scared		(5);
+  		!ptsd	(6);
+  	
+  	ext by
+  		att*		(e1)
+  		rule	(e2)
+  		agg	(e3);
+  	int by
+  		cdi*		(i1)
+        scared		(i2);
+  		!PTSD	(i3);
+  			
+  	[p@0 ext@0 int@0]; 
+  	p@1 ext@1 int@1;
+  	
+  	p with int@0 ext@0;
+  	
+  	int with ext@0;
+  	
+  SaveData:
+  File = ftp_nopt.txt;
+  save = fscores;
+
+  Output: Tech1 tech4 tech10 standardized;
+  	

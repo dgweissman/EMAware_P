@@ -1,0 +1,960 @@
+Mplus VERSION 8 (Mac)
+MUTHEN & MUTHEN
+08/20/2019   1:56 PM
+
+INPUT INSTRUCTIONS
+
+  title: Feelz P - BiFactor Model with reduced scales
+
+    data:		file = ftp10.csv;
+
+    variable:	
+    	names= ID cdi scared ptsd	
+    	att rule agg;
+    		
+    	usevar= cdi scared	
+    	!ptsd
+    	att rule agg;
+    	
+    	IDVARIABLE = ID;
+
+        CATEGORICAL ARE
+             cdi scared  att rule agg;
+    	!ptsd
+    	missing = .;
+
+    analysis: 	
+    	
+    	type =  general;
+    	estimator = MLR;
+    	iterations = 10000;
+    	CONVERGENCE = .00005;
+    	MODEL = NOCOVARIANCES;
+    	
+    MODEL:
+    		
+    	P by
+    		cdi*   		(1)
+    		att		(2)
+    		rule	(3)
+    		agg	(4)
+    	    scared		(5);
+    		!ptsd	(6);
+    	
+    	ext by
+    		att*		(e1)
+    		rule	(e2)
+    		agg	(e3);
+    	int by
+    		cdi*		(i1)
+          scared		(i2);
+    		!PTSD	(i3);
+    			
+    	[p@0 ext@0 int@0];
+    	p@1 ext@1 int@1;
+    	
+    	p with int@0 ext@0;
+    	
+    	int with ext@0;
+    	
+    SaveData:
+    File = ftp_p_nopt.txt;
+    save = fscores;
+
+    Output: Tech1 tech4 tech10 standardized;
+    	
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+Feelz P - BiFactor Model with reduced scales
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         120
+
+Number of dependent variables                                    5
+Number of independent variables                                  0
+Number of continuous latent variables                            3
+
+Observed dependent variables
+
+  Binary and ordered categorical (ordinal)
+   CDI         SCARED      ATT         RULE        AGG
+
+Continuous latent variables
+   P           EXT         INT
+
+Variables with special functions
+
+  ID variable           ID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                               10000
+  Convergence criterion                                  0.500D-04
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            2
+  Adaptive quadrature                                           ON
+Link                                                         LOGIT
+Cholesky                                                       OFF
+
+Input data file(s)
+  ftp10.csv
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             5
+     Number of y missing data patterns           0
+     Number of u missing data patterns           5
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    CDI
+      Category 1    0.110           11.000
+      Category 2    0.100           10.000
+      Category 3    0.110           11.000
+      Category 4    0.110           11.000
+      Category 5    0.070            7.000
+      Category 6    0.140           14.000
+      Category 7    0.110           11.000
+      Category 8    0.110           11.000
+      Category 9    0.050            5.000
+      Category 10    0.090            9.000
+    SCARED
+      Category 1    0.147           15.000
+      Category 2    0.088            9.000
+      Category 3    0.098           10.000
+      Category 4    0.069            7.000
+      Category 5    0.098           10.000
+      Category 6    0.098           10.000
+      Category 7    0.127           13.000
+      Category 8    0.088            9.000
+      Category 9    0.078            8.000
+      Category 10    0.108           11.000
+    ATT
+      Category 1    0.117           14.000
+      Category 2    0.108           13.000
+      Category 3    0.108           13.000
+      Category 4    0.108           13.000
+      Category 5    0.150           18.000
+      Category 6    0.075            9.000
+      Category 7    0.075            9.000
+      Category 8    0.100           12.000
+      Category 9    0.092           11.000
+      Category 10    0.067            8.000
+    RULE
+      Category 1    0.233           28.000
+      Category 2    0.225           27.000
+      Category 3    0.142           17.000
+      Category 4    0.117           14.000
+      Category 5    0.133           16.000
+      Category 6    0.067            8.000
+      Category 7    0.083           10.000
+    AGG
+      Category 1    0.158           19.000
+      Category 2    0.083           10.000
+      Category 3    0.083           10.000
+      Category 4    0.150           18.000
+      Category 5    0.067            8.000
+      Category 6    0.083           10.000
+      Category 7    0.117           14.000
+      Category 8    0.058            7.000
+      Category 9    0.117           14.000
+      Category 10    0.083           10.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       52
+
+Loglikelihood
+
+          H0 Value                       -1128.775
+          H0 Scaling Correction Factor      0.9525
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    2361.551
+          Bayesian (BIC)                  2542.544
+          Sample-Size Adjusted BIC        2377.717
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ P        BY
+    CDI                9.371      3.107      3.016      0.003
+    ATT                1.730      0.355      4.878      0.000
+    RULE               1.039      0.223      4.661      0.000
+    AGG                2.847      2.145      1.327      0.184
+    SCARED             3.234      1.008      3.207      0.001
+
+ EXT      BY
+    ATT                0.966      0.241      4.000      0.000
+    RULE               0.581      0.210      2.771      0.006
+    AGG                4.259      3.777      1.128      0.259
+
+ INT      BY
+    CDI                3.246      1.236      2.626      0.009
+    SCARED             5.769      1.397      4.129      0.000
+
+ P        WITH
+    INT                0.000      0.000    999.000    999.000
+    EXT                0.000      0.000    999.000    999.000
+
+ INT      WITH
+    EXT                0.000      0.000    999.000    999.000
+
+ Means
+    P                  0.000      0.000    999.000    999.000
+    EXT                0.000      0.000    999.000    999.000
+    INT                0.000      0.000    999.000    999.000
+
+ Thresholds
+    CDI$1            -12.160      3.791     -3.208      0.001
+    CDI$2             -8.039      2.726     -2.949      0.003
+    CDI$3             -4.481      1.892     -2.369      0.018
+    CDI$4             -1.296      1.302     -0.996      0.319
+    CDI$5              0.726      1.190      0.611      0.541
+    CDI$6              4.351      1.634      2.663      0.008
+    CDI$7              7.178      2.337      3.071      0.002
+    CDI$8             10.760      3.523      3.054      0.002
+    CDI$9             13.329      4.088      3.261      0.001
+    SCARED$1          -6.931      1.563     -4.434      0.000
+    SCARED$2          -4.492      1.127     -3.986      0.000
+    SCARED$3          -2.437      0.939     -2.594      0.009
+    SCARED$4          -1.266      0.878     -1.441      0.149
+    SCARED$5           0.317      0.838      0.378      0.705
+    SCARED$6           1.949      0.915      2.130      0.033
+    SCARED$7           4.319      1.122      3.850      0.000
+    SCARED$8           6.256      1.356      4.612      0.000
+    SCARED$9           8.529      1.724      4.946      0.000
+    ATT$1             -3.150      0.481     -6.551      0.000
+    ATT$2             -2.038      0.364     -5.594      0.000
+    ATT$3             -1.205      0.319     -3.775      0.000
+    ATT$4             -0.455      0.298     -1.530      0.126
+    ATT$5              0.562      0.302      1.864      0.062
+    ATT$6              1.085      0.323      3.357      0.001
+    ATT$7              1.664      0.348      4.783      0.000
+    ATT$8              2.622      0.435      6.023      0.000
+    ATT$9              4.036      0.581      6.948      0.000
+    RULE$1            -1.545      0.278     -5.549      0.000
+    RULE$2            -0.267      0.237     -1.129      0.259
+    RULE$3             0.480      0.242      1.983      0.047
+    RULE$4             1.160      0.254      4.569      0.000
+    RULE$5             2.222      0.311      7.138      0.000
+    RULE$6             3.019      0.421      7.174      0.000
+    AGG$1             -5.376      4.085     -1.316      0.188
+    AGG$2             -3.794      2.924     -1.298      0.194
+    AGG$3             -2.497      1.980     -1.261      0.207
+    AGG$4             -0.494      0.711     -0.695      0.487
+    AGG$5              0.370      0.702      0.527      0.598
+    AGG$6              1.511      1.305      1.157      0.247
+    AGG$7              3.436      2.637      1.303      0.193
+    AGG$8              4.643      3.563      1.303      0.193
+    AGG$9              7.754      5.830      1.330      0.184
+
+ Variances
+    P                  1.000      0.000    999.000    999.000
+    EXT                1.000      0.000    999.000    999.000
+    INT                1.000      0.000    999.000    999.000
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ P        BY
+    CDI                0.930      0.049     18.784      0.000
+    ATT                0.644      0.074      8.752      0.000
+    RULE               0.479      0.081      5.908      0.000
+    AGG                0.524      0.079      6.616      0.000
+    SCARED             0.472      0.129      3.665      0.000
+
+ EXT      BY
+    ATT                0.359      0.075      4.808      0.000
+    RULE               0.268      0.092      2.921      0.003
+    AGG                0.784      0.121      6.488      0.000
+
+ INT      BY
+    CDI                0.322      0.128      2.524      0.012
+    SCARED             0.841      0.076     11.045      0.000
+
+ P        WITH
+    INT                0.000      0.000    999.000    999.000
+    EXT                0.000      0.000    999.000    999.000
+
+ INT      WITH
+    EXT                0.000      0.000    999.000    999.000
+
+ Means
+    P                  0.000      0.000    999.000    999.000
+    EXT                0.000      0.000    999.000    999.000
+    INT                0.000      0.000    999.000    999.000
+
+ Thresholds
+    CDI$1             -1.206      0.161     -7.470      0.000
+    CDI$2             -0.797      0.135     -5.897      0.000
+    CDI$3             -0.444      0.133     -3.344      0.001
+    CDI$4             -0.129      0.121     -1.058      0.290
+    CDI$5              0.072      0.118      0.612      0.541
+    CDI$6              0.432      0.122      3.550      0.000
+    CDI$7              0.712      0.127      5.618      0.000
+    CDI$8              1.067      0.147      7.273      0.000
+    CDI$9              1.322      0.160      8.266      0.000
+    SCARED$1          -1.011      0.154     -6.581      0.000
+    SCARED$2          -0.655      0.133     -4.910      0.000
+    SCARED$3          -0.355      0.128     -2.773      0.006
+    SCARED$4          -0.185      0.125     -1.474      0.140
+    SCARED$5           0.046      0.122      0.380      0.704
+    SCARED$6           0.284      0.121      2.351      0.019
+    SCARED$7           0.630      0.127      4.957      0.000
+    SCARED$8           0.912      0.140      6.508      0.000
+    SCARED$9           1.244      0.161      7.748      0.000
+    ATT$1             -1.173      0.143     -8.208      0.000
+    ATT$2             -0.759      0.119     -6.398      0.000
+    ATT$3             -0.449      0.112     -3.993      0.000
+    ATT$4             -0.170      0.109     -1.550      0.121
+    ATT$5              0.209      0.112      1.865      0.062
+    ATT$6              0.404      0.117      3.455      0.001
+    ATT$7              0.620      0.122      5.091      0.000
+    ATT$8              0.976      0.140      6.954      0.000
+    ATT$9              1.502      0.182      8.249      0.000
+    RULE$1            -0.712      0.121     -5.878      0.000
+    RULE$2            -0.123      0.108     -1.140      0.254
+    RULE$3             0.221      0.112      1.967      0.049
+    RULE$4             0.535      0.117      4.558      0.000
+    RULE$5             1.024      0.138      7.410      0.000
+    RULE$6             1.392      0.176      7.895      0.000
+    AGG$1             -0.989      0.133     -7.451      0.000
+    AGG$2             -0.698      0.120     -5.794      0.000
+    AGG$3             -0.460      0.116     -3.978      0.000
+    AGG$4             -0.091      0.114     -0.797      0.425
+    AGG$5              0.068      0.115      0.593      0.553
+    AGG$6              0.278      0.118      2.356      0.018
+    AGG$7              0.632      0.125      5.059      0.000
+    AGG$8              0.854      0.134      6.383      0.000
+    AGG$9              1.427      0.170      8.373      0.000
+
+ Variances
+    P                  1.000      0.000    999.000    999.000
+    EXT                1.000      0.000    999.000    999.000
+    INT                1.000      0.000    999.000    999.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ P        BY
+    CDI                0.930      0.049     18.784      0.000
+    ATT                0.644      0.074      8.752      0.000
+    RULE               0.479      0.081      5.908      0.000
+    AGG                0.524      0.079      6.616      0.000
+    SCARED             0.472      0.129      3.665      0.000
+
+ EXT      BY
+    ATT                0.359      0.075      4.808      0.000
+    RULE               0.268      0.092      2.921      0.003
+    AGG                0.784      0.121      6.488      0.000
+
+ INT      BY
+    CDI                0.322      0.128      2.524      0.012
+    SCARED             0.841      0.076     11.045      0.000
+
+ P        WITH
+    INT                0.000      0.000    999.000    999.000
+    EXT                0.000      0.000    999.000    999.000
+
+ INT      WITH
+    EXT                0.000      0.000    999.000    999.000
+
+ Means
+    P                  0.000      0.000    999.000    999.000
+    EXT                0.000      0.000    999.000    999.000
+    INT                0.000      0.000    999.000    999.000
+
+ Thresholds
+    CDI$1             -1.206      0.161     -7.470      0.000
+    CDI$2             -0.797      0.135     -5.897      0.000
+    CDI$3             -0.444      0.133     -3.344      0.001
+    CDI$4             -0.129      0.121     -1.058      0.290
+    CDI$5              0.072      0.118      0.612      0.541
+    CDI$6              0.432      0.122      3.550      0.000
+    CDI$7              0.712      0.127      5.618      0.000
+    CDI$8              1.067      0.147      7.273      0.000
+    CDI$9              1.322      0.160      8.266      0.000
+    SCARED$1          -1.011      0.154     -6.581      0.000
+    SCARED$2          -0.655      0.133     -4.910      0.000
+    SCARED$3          -0.355      0.128     -2.773      0.006
+    SCARED$4          -0.185      0.125     -1.474      0.140
+    SCARED$5           0.046      0.122      0.380      0.704
+    SCARED$6           0.284      0.121      2.351      0.019
+    SCARED$7           0.630      0.127      4.957      0.000
+    SCARED$8           0.912      0.140      6.508      0.000
+    SCARED$9           1.244      0.161      7.748      0.000
+    ATT$1             -1.173      0.143     -8.208      0.000
+    ATT$2             -0.759      0.119     -6.398      0.000
+    ATT$3             -0.449      0.112     -3.993      0.000
+    ATT$4             -0.170      0.109     -1.550      0.121
+    ATT$5              0.209      0.112      1.865      0.062
+    ATT$6              0.404      0.117      3.455      0.001
+    ATT$7              0.620      0.122      5.091      0.000
+    ATT$8              0.976      0.140      6.954      0.000
+    ATT$9              1.502      0.182      8.249      0.000
+    RULE$1            -0.712      0.121     -5.878      0.000
+    RULE$2            -0.123      0.108     -1.140      0.254
+    RULE$3             0.221      0.112      1.967      0.049
+    RULE$4             0.535      0.117      4.558      0.000
+    RULE$5             1.024      0.138      7.410      0.000
+    RULE$6             1.392      0.176      7.895      0.000
+    AGG$1             -0.989      0.133     -7.451      0.000
+    AGG$2             -0.698      0.120     -5.794      0.000
+    AGG$3             -0.460      0.116     -3.978      0.000
+    AGG$4             -0.091      0.114     -0.797      0.425
+    AGG$5              0.068      0.115      0.593      0.553
+    AGG$6              0.278      0.118      2.356      0.018
+    AGG$7              0.632      0.125      5.059      0.000
+    AGG$8              0.854      0.134      6.383      0.000
+    AGG$9              1.427      0.170      8.373      0.000
+
+ Variances
+    P                  1.000      0.000    999.000    999.000
+    EXT                1.000      0.000    999.000    999.000
+    INT                1.000      0.000    999.000    999.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ P        BY
+    CDI                9.371      3.107      3.016      0.003
+    ATT                1.730      0.355      4.878      0.000
+    RULE               1.039      0.223      4.661      0.000
+    AGG                2.847      2.145      1.327      0.184
+    SCARED             3.234      1.008      3.207      0.001
+
+ EXT      BY
+    ATT                0.966      0.241      4.000      0.000
+    RULE               0.581      0.210      2.771      0.006
+    AGG                4.259      3.777      1.128      0.259
+
+ INT      BY
+    CDI                3.246      1.236      2.626      0.009
+    SCARED             5.769      1.397      4.129      0.000
+
+ P        WITH
+    INT                0.000      0.000    999.000    999.000
+    EXT                0.000      0.000    999.000    999.000
+
+ INT      WITH
+    EXT                0.000      0.000    999.000    999.000
+
+ Means
+    P                  0.000      0.000    999.000    999.000
+    EXT                0.000      0.000    999.000    999.000
+    INT                0.000      0.000    999.000    999.000
+
+ Thresholds
+    CDI$1            -12.160      3.791     -3.208      0.001
+    CDI$2             -8.039      2.726     -2.949      0.003
+    CDI$3             -4.481      1.892     -2.369      0.018
+    CDI$4             -1.296      1.302     -0.996      0.319
+    CDI$5              0.726      1.190      0.611      0.541
+    CDI$6              4.351      1.634      2.663      0.008
+    CDI$7              7.178      2.337      3.071      0.002
+    CDI$8             10.760      3.523      3.054      0.002
+    CDI$9             13.329      4.088      3.261      0.001
+    SCARED$1          -6.931      1.563     -4.434      0.000
+    SCARED$2          -4.492      1.127     -3.986      0.000
+    SCARED$3          -2.437      0.939     -2.594      0.009
+    SCARED$4          -1.266      0.878     -1.441      0.149
+    SCARED$5           0.317      0.838      0.378      0.705
+    SCARED$6           1.949      0.915      2.130      0.033
+    SCARED$7           4.319      1.122      3.850      0.000
+    SCARED$8           6.256      1.356      4.612      0.000
+    SCARED$9           8.529      1.724      4.946      0.000
+    ATT$1             -3.150      0.481     -6.551      0.000
+    ATT$2             -2.038      0.364     -5.594      0.000
+    ATT$3             -1.205      0.319     -3.775      0.000
+    ATT$4             -0.455      0.298     -1.530      0.126
+    ATT$5              0.562      0.302      1.864      0.062
+    ATT$6              1.085      0.323      3.357      0.001
+    ATT$7              1.664      0.348      4.783      0.000
+    ATT$8              2.622      0.435      6.023      0.000
+    ATT$9              4.036      0.581      6.948      0.000
+    RULE$1            -1.545      0.278     -5.549      0.000
+    RULE$2            -0.267      0.237     -1.129      0.259
+    RULE$3             0.480      0.242      1.983      0.047
+    RULE$4             1.160      0.254      4.569      0.000
+    RULE$5             2.222      0.311      7.138      0.000
+    RULE$6             3.019      0.421      7.174      0.000
+    AGG$1             -5.376      4.085     -1.316      0.188
+    AGG$2             -3.794      2.924     -1.298      0.194
+    AGG$3             -2.497      1.980     -1.261      0.207
+    AGG$4             -0.494      0.711     -0.695      0.487
+    AGG$5              0.370      0.702      0.527      0.598
+    AGG$6              1.511      1.305      1.157      0.247
+    AGG$7              3.436      2.637      1.303      0.193
+    AGG$8              4.643      3.563      1.303      0.193
+    AGG$9              7.754      5.830      1.330      0.184
+
+ Variances
+    P                  1.000      0.000    999.000    999.000
+    EXT                1.000      0.000    999.000    999.000
+    INT                1.000      0.000    999.000    999.000
+
+
+R-SQUARE
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    CDI                0.968      0.019     50.273      0.000
+    SCARED             0.930      0.027     34.050      0.000
+    ATT                0.544      0.091      5.979      0.000
+    RULE               0.301      0.075      4.000      0.000
+    AGG                0.889      0.166      5.350      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.488E-07
+       (ratio of smallest to largest eigenvalue)
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION
+
+
+           TAU
+              CDI$1         CDI$2         CDI$3         CDI$4         CDI$5
+              ________      ________      ________      ________      ________
+                   11            12            13            14            15
+
+
+           TAU
+              CDI$6         CDI$7         CDI$8         CDI$9         SCARED$1
+              ________      ________      ________      ________      ________
+                   16            17            18            19            20
+
+
+           TAU
+              SCARED$2      SCARED$3      SCARED$4      SCARED$5      SCARED$6
+              ________      ________      ________      ________      ________
+                   21            22            23            24            25
+
+
+           TAU
+              SCARED$7      SCARED$8      SCARED$9      ATT$1         ATT$2
+              ________      ________      ________      ________      ________
+                   26            27            28            29            30
+
+
+           TAU
+              ATT$3         ATT$4         ATT$5         ATT$6         ATT$7
+              ________      ________      ________      ________      ________
+                   31            32            33            34            35
+
+
+           TAU
+              ATT$8         ATT$9         RULE$1        RULE$2        RULE$3
+              ________      ________      ________      ________      ________
+                   36            37            38            39            40
+
+
+           TAU
+              RULE$4        RULE$5        RULE$6        AGG$1         AGG$2
+              ________      ________      ________      ________      ________
+                   41            42            43            44            45
+
+
+           TAU
+              AGG$3         AGG$4         AGG$5         AGG$6         AGG$7
+              ________      ________      ________      ________      ________
+                   46            47            48            49            50
+
+
+           TAU
+              AGG$8         AGG$9
+              ________      ________
+                   51            52
+
+
+           NU
+              CDI           SCARED        ATT           RULE          AGG
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           LAMBDA
+              P             EXT           INT
+              ________      ________      ________
+ CDI                1             0             2
+ SCARED             3             0             4
+ ATT                5             6             0
+ RULE               7             8             0
+ AGG                9            10             0
+
+
+           THETA
+              CDI           SCARED        ATT           RULE          AGG
+              ________      ________      ________      ________      ________
+ CDI                0
+ SCARED             0             0
+ ATT                0             0             0
+ RULE               0             0             0             0
+ AGG                0             0             0             0             0
+
+
+           ALPHA
+              P             EXT           INT
+              ________      ________      ________
+                    0             0             0
+
+
+           BETA
+              P             EXT           INT
+              ________      ________      ________
+ P                  0             0             0
+ EXT                0             0             0
+ INT                0             0             0
+
+
+           PSI
+              P             EXT           INT
+              ________      ________      ________
+ P                  0
+ EXT                0             0
+ INT                0             0             0
+
+
+     STARTING VALUES
+
+
+           TAU
+              CDI$1         CDI$2         CDI$3         CDI$4         CDI$5
+              ________      ________      ________      ________      ________
+               -2.091        -1.325        -0.754        -0.282         0.000
+
+
+           TAU
+              CDI$6         CDI$7         CDI$8         CDI$9         SCARED$1
+              ________      ________      ________      ________      ________
+                0.575         1.099         1.815         2.314        -1.758
+
+
+           TAU
+              SCARED$2      SCARED$3      SCARED$4      SCARED$5      SCARED$6
+              ________      ________      ________      ________      ________
+               -1.179        -0.693        -0.397         0.000         0.397
+
+
+           TAU
+              SCARED$7      SCARED$8      SCARED$9      ATT$1         ATT$2
+              ________      ________      ________      ________      ________
+                0.972         1.474         2.113        -2.024        -1.237
+
+
+           TAU
+              ATT$3         ATT$4         ATT$5         ATT$6         ATT$7
+              ________      ________      ________      ________      ________
+               -0.693        -0.234         0.371         0.693         1.055
+
+
+           TAU
+              ATT$8         ATT$9         RULE$1        RULE$2        RULE$3
+              ________      ________      ________      ________      ________
+                1.671         2.639        -1.190        -0.167         0.405
+
+
+           TAU
+              RULE$4        RULE$5        RULE$6        AGG$1         AGG$2
+              ________      ________      ________      ________      ________
+                0.928         1.735         2.398        -1.671        -1.144
+
+
+           TAU
+              AGG$3         AGG$4         AGG$5         AGG$6         AGG$7
+              ________      ________      ________      ________      ________
+               -0.731        -0.100         0.167         0.511         1.055
+
+
+           TAU
+              AGG$8         AGG$9
+              ________      ________
+                1.386         2.398
+
+
+           NU
+              CDI           SCARED        ATT           RULE          AGG
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              P             EXT           INT
+              ________      ________      ________
+ CDI            1.000         0.000         1.000
+ SCARED         1.000         0.000         1.000
+ ATT            1.000         1.000         0.000
+ RULE           1.000         1.000         0.000
+ AGG            1.000         1.000         0.000
+
+
+           THETA
+              CDI           SCARED        ATT           RULE          AGG
+              ________      ________      ________      ________      ________
+ CDI            1.000
+ SCARED         0.000         1.000
+ ATT            0.000         0.000         1.000
+ RULE           0.000         0.000         0.000         1.000
+ AGG            0.000         0.000         0.000         0.000         1.000
+
+
+           ALPHA
+              P             EXT           INT
+              ________      ________      ________
+                0.000         0.000         0.000
+
+
+           BETA
+              P             EXT           INT
+              ________      ________      ________
+ P              0.000         0.000         0.000
+ EXT            0.000         0.000         0.000
+ INT            0.000         0.000         0.000
+
+
+           PSI
+              P             EXT           INT
+              ________      ________      ________
+ P              1.000
+ EXT            0.000         1.000
+ INT            0.000         0.000         1.000
+
+
+TECHNICAL 4 OUTPUT
+
+
+     ESTIMATES DERIVED FROM THE MODEL
+
+
+           ESTIMATED MEANS FOR THE LATENT VARIABLES
+              P             EXT           INT
+              ________      ________      ________
+                0.000         0.000         0.000
+
+
+           S.E. FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              P             EXT           INT
+              ________      ________      ________
+                0.000         0.000         0.000
+
+
+           EST./S.E. FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              P             EXT           INT
+              ________      ________      ________
+                0.000         0.000         0.000
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              P             EXT           INT
+              ________      ________      ________
+                1.000         1.000         1.000
+
+
+           ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              P             EXT           INT
+              ________      ________      ________
+ P              1.000
+ EXT            0.000         1.000
+ INT            0.000         0.000         1.000
+
+
+           S.E. FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              P             EXT           INT
+              ________      ________      ________
+ P              0.000
+ EXT            0.000         0.000
+ INT            0.000         0.000         0.000
+
+
+           EST./S.E. FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              P             EXT           INT
+              ________      ________      ________
+ P        ***********
+ EXT            0.000   ***********
+ INT            0.000         0.000   ***********
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              P             EXT           INT
+              ________      ________      ________
+ P              0.000
+ EXT            1.000         0.000
+ INT            1.000         1.000         0.000
+
+
+           ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              P             EXT           INT
+              ________      ________      ________
+ P              1.000
+ EXT            0.000         1.000
+ INT            0.000         0.000         1.000
+
+
+           S.E. FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              P             EXT           INT
+              ________      ________      ________
+ P              0.000
+ EXT            0.000         0.000
+ INT            0.000         0.000         0.000
+
+
+           EST./S.E. FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              P             EXT           INT
+              ________      ________      ________
+ P            999.000
+ EXT            0.000       999.000
+ INT            0.000         0.000       999.000
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              P             EXT           INT
+              ________      ________      ________
+ P              0.000
+ EXT            1.000         0.000
+ INT            1.000         1.000         0.000
+
+
+TECHNICAL 10 OUTPUT
+
+
+SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              P             EXT           INT
+              ________      ________      ________
+                0.002         0.000         0.001
+
+
+           Covariances
+              P             EXT           INT
+              ________      ________      ________
+ P              0.829
+ EXT            0.104         0.745
+ INT            0.110        -0.053         0.688
+
+
+           Correlations
+              P             EXT           INT
+              ________      ________      ________
+ P              1.000
+ EXT            0.133         1.000
+ INT            0.146        -0.075         1.000
+
+
+SAVEDATA INFORMATION
+
+
+  Save file
+    ftp_p_nopt.txt
+
+  Order and format of variables
+
+    CDI            F10.3
+    SCARED         F10.3
+    ATT            F10.3
+    RULE           F10.3
+    AGG            F10.3
+    P              F10.3
+    EXT            F10.3
+    INT            F10.3
+    ID             I4
+
+  Save file format
+    8F10.3 I4
+
+  Save file record length    10000
+
+
+     Beginning Time:  13:56:06
+        Ending Time:  13:56:24
+       Elapsed Time:  00:00:18
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2017 Muthen & Muthen
