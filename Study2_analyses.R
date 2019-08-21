@@ -32,4 +32,4 @@ P_bi_comb~1
 P_bi_comb_FU~1
 S1AGE~~S1AGE
 S1AGE~1'
-summary(lavaan(mod,data=mtea,se="bootstrap",bootstrap=1000),standardized=T,ci=T)
+summary(lavaan(mod,data=mtea,se="bootstrap",bootstrap=10000),standardized=T,ci=T)
