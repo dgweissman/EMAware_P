@@ -1,8 +1,12 @@
 library(effsize)
 library(lavaan)
+library(boot)
 library(ggplot2)
 library(sjPlot)
 mtea<-read.csv("Study2_data.csv")
+
+#Interaction of Age and Sex in relation to Emotional Awareness
+summary(lm(EM_AWARE~ANY_ABUSE_CHILD_DV+S1AGE*SEX,data=mtea))
 
 #Violence Exposure and Emotional Awareness
 cohen.d(mtea$EM_AWARE~as.factor(mtea$ANY_ABUSE_CHILD_DV))
@@ -16,7 +20,23 @@ ggplot(mtea, aes(x=EM_AWARE-10, y=P_bi_comb)) + geom_point(shape=1,size=3) +  ge
 summary(lm(P_bi_comb~EM_AWARE+S1AGE+SEX+nonwhite+INC_NEEDS+ANY_ABUSE_CHILD_DV,data=mtea))
 summary(lm(P_bi_comb_FU~P_bi_comb+EM_AWARE+S1AGE+SEX+nonwhite+INC_NEEDS+ANY_ABUSE_CHILD_DV+Years,data=mtea))
 
-#Mediation model
+#Mediation of the effects of violence exposure on P by emotional awareness
+
+myModMed_IDDesc <- function(x, id) {
+  data <- x[id,]
+  OutcomeModel <- coef(lm(P_bi_comb_FU ~ P_bi_comb + S1AGE*SEX + EM_AWARE + ANY_ABUSE_CHILD_DV, data = data))
+  OutcomeModelAlone <- coef(lm(P_bi_comb_FU ~ S1AGE*SEX, data = data))
+  MedModel <- coef(lm(EM_AWARE ~ S1AGE*SEX + ANY_ABUSE_CHILD_DV, data = data))
+  type1 <- unname(OutcomeModel["EM_AWARE"] * MedModel["S1AGE:SEX"])
+  type2 <- unname(OutcomeModel["EM_AWARE"] * MedModel["ANY_ABUSE_CHILD_DV"])
+  return(c(type1 = type1,type2=type2))
+}
+
+set.seed(123); boot.ModMed_IDDesc <- boot(mtea, statistic = myModMed_IDDesc, R = 10000)
+boot.ModMed_IDDesc 
+boot.ci(boot.ModMed_IDDesc, type = "bca", index = 1)
+boot.ci(boot.ModMed_IDDesc, type = "bca", index = 2)
+
 mod<-'
 EM_AWARE~a*ANY_ABUSE_CHILD_DV+S1AGE
 P_bi_comb_FU~b*EM_AWARE+c*ANY_ABUSE_CHILD_DV+P_bi_comb+S1AGE
@@ -32,4 +52,29 @@ P_bi_comb~1
 P_bi_comb_FU~1
 S1AGE~~S1AGE
 S1AGE~1'
+summary(lavaan(mod,data=mtea,se="bootstrap",bootstrap=10000),standardized=T,ci=T)
+
+mtea$AgexSEX<-mtea$S1AGE*mtea$SEX
+
+mod<-'
+EM_AWARE~a1*ANY_ABUSE_CHILD_DV+S1AGE+SEX+a2*AgexSEX
+P_bi_comb_FU~b*EM_AWARE+c*ANY_ABUSE_CHILD_DV+P_bi_comb+S1AGE+SEX+AgexSEX
+ab1:=a1*b
+ab2:=a2*b
+ab:= a1*b + a2*b
+tot:= a1*b +a2*b + c
+EM_AWARE~~EM_AWARE
+ANY_ABUSE_CHILD_DV~~ANY_ABUSE_CHILD_DV
+P_bi_comb~~P_bi_comb
+P_bi_comb_FU~~P_bi_comb_FU
+EM_AWARE~1
+ANY_ABUSE_CHILD_DV~1
+P_bi_comb~1
+P_bi_comb_FU~1
+S1AGE~~S1AGE
+S1AGE~1
+SEX~~SEX
+SEX~1
+AgexSEX~~AgexSEX
+AgexSEX~1'
 summary(lavaan(mod,data=mtea,se="bootstrap",bootstrap=10000),standardized=T,ci=T)

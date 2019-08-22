@@ -48,6 +48,9 @@ cor.test(ft$SCARED_TOT,ft$Aggressive_Total)
 cor.test(ft$SCARED_TOT,ft$Rule_Total)
 cor.test(ft$Attention_Total,ft$PTSD_SEV_COMBINED)
 
+#Interaction of age and sex in relation to emotional awareness
+summary(lm(Alexithymia~Gender*Age,data=ft))
+
 #P Factor and Emotional Awareness
 cor.test(ft$Alexithymia,ft$P)
 summary(lm(P~Gender+Age+INC_NEEDS+nonwhite+Alexithymia,data=ft))
