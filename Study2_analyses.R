@@ -3,6 +3,7 @@ library(lavaan)
 library(boot)
 library(ggplot2)
 library(sjPlot)
+library(lm.beta)
 mtea<-read.csv("Study2_data.csv")
 mtea$Sex<-"F"
 mtea$Sex[which(mtea$SEX==0)]<-"M"
@@ -31,6 +32,7 @@ scatter_theme<- theme(axis.title.x=element_text(size=28),axis.title.y=element_te
 ggplot(mtea, aes(x=EM_AWARE-10, y=P_bi_comb)) + geom_point(shape=1,size=3) +  geom_smooth(method=lm) + scatter_theme + ylab("P-factor") + xlab("Low Emotional Awareness")+xlim(0,40)+ylim(-2,2)
 summary(lm(P_bi_comb~EM_AWARE+S1AGE*SEX+nonwhite+INC_NEEDS+ANY_ABUSE_CHILD_DV,data=mtea))
 summary(lm(P_bi_comb_FU~P_bi_comb+EM_AWARE+scale(S1AGE,scale=F)*scale(SEX,scale=F)+nonwhite+INC_NEEDS+ANY_ABUSE_CHILD_DV+Years,data=mtea))
+lm.beta(lm(P_bi_comb_FU~P_bi_comb+EM_AWARE+scale(S1AGE,scale=F)*scale(SEX,scale=F)+nonwhite+INC_NEEDS+ANY_ABUSE_CHILD_DV+Years,data=mtea))
 
 #Mediation of the effects of violence exposure on P by emotional awareness
 
