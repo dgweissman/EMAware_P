@@ -12,7 +12,7 @@ mtea$Sex[which(mtea$SEX==0)]<-"M"
 summary(lm(EM_AWARE~S1AGE*SEX,data=mtea))
 scatter_theme<- theme(axis.title.x=element_text(size=20),axis.title.y=element_text(size=20),axis.text = element_text(size=18), legend.title = element_text(size = 18), legend.text = element_text(size = 18))
 qplot(x = S1AGE, y = (EM_AWARE-10), data = mtea, color = Sex) +
-  geom_smooth(method = "lm") + xlab("Age") + ylab("Low Emotional Awareness") + geom_point(size=.1) + scatter_theme + xlim(c(7.5,18)) + ylim(c(0,40)) + scale_x_continuous(breaks=c(9,12,15,18))
+  geom_smooth(method = "lm") + xlab("Age") + ylab("Low Emotional Awareness") + geom_point(size=.1) + scatter_theme + xlim(c(7.5,18)) + scale_x_continuous(breaks=c(9,12,15,18))
 
 
 #Violence Exposure and Emotional Awareness
