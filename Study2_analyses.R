@@ -51,11 +51,18 @@ boot.ModMed_IDDesc
 boot.ci(boot.ModMed_IDDesc, type = "bca", index = 1)
 boot.ci(boot.ModMed_IDDesc, type = "bca", index = 2)
 
-mod<-'
-EM_AWARE~a*ANY_ABUSE_CHILD_DV+S1AGE
-P_bi_comb_FU~b*EM_AWARE+c*ANY_ABUSE_CHILD_DV+P_bi_comb+S1AGE
-ab1:=a*b
-tot := a*b+c
+
+mtea$Age<-mtea$S1AGE-mean(mtea$S1AGE)
+mtea$AgexSEX<-mtea$Age*mtea$SEX
+
+mod1<-'
+EM_AWARE~a1*ANY_ABUSE_CHILD_DV+a2*Age+SEX
+P_bi_comb_FU~b*EM_AWARE+c1*ANY_ABUSE_CHILD_DV+P_bi_comb+c2*Age+SEX
+ab1:=a1*b
+ab2:=a2*b
+ab:= a1*b + a2*b
+tot1:= a1*b + c1
+tot2:= a2*b + c2
 EM_AWARE~~EM_AWARE
 ANY_ABUSE_CHILD_DV~~ANY_ABUSE_CHILD_DV
 P_bi_comb~~P_bi_comb
@@ -64,20 +71,23 @@ EM_AWARE~1
 ANY_ABUSE_CHILD_DV~1
 P_bi_comb~1
 P_bi_comb_FU~1
-S1AGE~~S1AGE
-S1AGE~1'
-summary(lavaan(mod,data=mtea,se="bootstrap",bootstrap=10000),standardized=T,ci=T)
+Age~~Age
+Age~1
+SEX~~SEX
+SEX~1'
+fit1<-lavaan(mod1,data=mtea,se="bootstrap",bootstrap=10000)
+summary(fit1,standardized=T,ci=T)
 
-mtea$Age<-mtea$S1AGE-mean(mtea$S1AGE)
-mtea$AgexSEX<-mtea$Age*mtea$SEX
-
-mod<-'
-EM_AWARE~a1*ANY_ABUSE_CHILD_DV+Age+SEX+a2*AgexSEX
-P_bi_comb_FU~b*EM_AWARE+c*ANY_ABUSE_CHILD_DV+P_bi_comb+Age+SEX+AgexSEX
+mod2<-'
+EM_AWARE~a1*ANY_ABUSE_CHILD_DV+a2*Age+SEX+a3*AgexSEX
+P_bi_comb_FU~b*EM_AWARE+c1*ANY_ABUSE_CHILD_DV+P_bi_comb+c2*Age+SEX+c3*AgexSEX
 ab1:=a1*b
 ab2:=a2*b
-ab:= a1*b + a2*b
-tot:= a1*b +a2*b + c
+ab3:=a3*b
+ab:= a1*b + a2*b + a3*b
+tot1:= a1*b + c1
+tot2:= a2*b + c2
+tot3:= a3*b + c3
 EM_AWARE~~EM_AWARE
 ANY_ABUSE_CHILD_DV~~ANY_ABUSE_CHILD_DV
 P_bi_comb~~P_bi_comb
@@ -92,4 +102,6 @@ SEX~~SEX
 SEX~1
 AgexSEX~~AgexSEX
 AgexSEX~1'
-summary(lavaan(mod,data=mtea,se="bootstrap",bootstrap=10000),standardized=T,ci=T)
+fit2<-lavaan(mod2,data=mtea,se="bootstrap",bootstrap=10000)
+summary(fit2,standardized=T,ci=T)
+anova(fit1,fit2)
