@@ -7,12 +7,15 @@ library(lm.beta)
 mtea<-read.csv("Study2_data.csv")
 mtea$Sex<-"F"
 mtea$Sex[which(mtea$SEX==0)]<-"M"
+mtea$EmA<-mtea$EM_AWARE-min(mtea$EM_AWARE,na.rm=T)
 
 #Interaction of Age and Sex in relation to Emotional Awareness
 summary(lm(EM_AWARE~S1AGE*SEX,data=mtea))
+cor.test(mtea$EM_AWARE[which(mtea$SEX==1)],mtea$S1AGE[which(mtea$SEX==1)])
+cor.test(mtea$EM_AWARE[which(mtea$SEX==0)],mtea$S1AGE[which(mtea$SEX==0)])
 scatter_theme<- theme(axis.title.x=element_text(size=20),axis.title.y=element_text(size=20),axis.text = element_text(size=18), legend.title = element_text(size = 18), legend.text = element_text(size = 18))
-qplot(x = S1AGE, y = (EM_AWARE-10), data = mtea, color = Sex) +
-  geom_smooth(method = "lm") + xlab("Age") + ylab("Low Emotional Awareness") + geom_point(size=.1) + scatter_theme + xlim(c(7.5,18)) + scale_x_continuous(breaks=c(9,12,15,18))
+qplot(x = S1AGE, y = (EmA), data = mtea[-which(is.na(mtea$EmA)),], color = Sex) +
+ geom_smooth(method = "lm") + xlab("Age") + ylab("Low Emotional Awareness") + scatter_theme + scale_x_continuous(breaks=c(9,12,15,18),limits = c(7.5, 18)) + ylim(c(0,40))
 
 
 #Violence Exposure and Emotional Awareness
@@ -29,7 +32,7 @@ qplot(x = S1AGE, y = P_bi_comb, data = mtea, color = Sex) +
 #Emotional awareness and P
 cor.test(mtea$EM_AWARE,mtea$P_bi_comb)
 scatter_theme<- theme(axis.title.x=element_text(size=28),axis.title.y=element_text(size=28),axis.text = element_text(size=24))
-ggplot(mtea, aes(x=EM_AWARE-10, y=P_bi_comb)) + geom_point(shape=1,size=3) +  geom_smooth(method=lm) + scatter_theme + ylab("P-factor") + xlab("Low Emotional Awareness")+xlim(0,40)+ylim(-2,2)
+ggplot(mtea[-which(is.na(mtea$EmA)),], aes(x=EmA, y=P_bi_comb)) + geom_point() +  geom_smooth(method=lm) + scatter_theme + ylab("P-factor") + xlab("Low Emotional Awareness")+xlim(0,40)+ylim(-2,2)
 summary(lm(P_bi_comb~EM_AWARE+S1AGE*SEX+nonwhite+INC_NEEDS+ANY_ABUSE_CHILD_DV,data=mtea))
 summary(lm(P_bi_comb_FU~P_bi_comb+EM_AWARE+scale(S1AGE,scale=F)*scale(SEX,scale=F)+nonwhite+INC_NEEDS+ANY_ABUSE_CHILD_DV+Years,data=mtea))
 lm.beta(lm(P_bi_comb_FU~P_bi_comb+EM_AWARE+scale(S1AGE,scale=F)*scale(SEX,scale=F)+nonwhite+INC_NEEDS+ANY_ABUSE_CHILD_DV+Years,data=mtea))
