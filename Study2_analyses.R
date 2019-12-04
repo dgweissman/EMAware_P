@@ -108,3 +108,13 @@ AgexSEX~1'
 fit2<-lavaan(mod2,data=mtea,se="bootstrap",bootstrap=10000)
 summary(fit2,standardized=T,ci=T)
 anova(fit1,fit2)
+
+#Emotional awareness and CBCL/YSR Problems
+cor.test(mtea$EM_AWARE,mtea$EXTERNAL)
+cor.test(mtea$EM_AWARE,mtea$YINTERNAL)
+summary(lm(EXTERNAL~EM_AWARE+S1AGE*SEX+nonwhite+INC_NEEDS+ANY_ABUSE_CHILD_DV,data=mtea))
+summary(lm(YINTERNAL~EM_AWARE+S1AGE*SEX+nonwhite+INC_NEEDS+ANY_ABUSE_CHILD_DV,data=mtea))
+summary(lm(EXTERNAL_FU~EXTERNAL+EM_AWARE+scale(S1AGE,scale=F)*scale(SEX,scale=F)+nonwhite+INC_NEEDS+ANY_ABUSE_CHILD_DV+Years,data=mtea))
+summary(lm(YINTERNAL_FU~YINTERNAL+EM_AWARE+scale(S1AGE,scale=F)*scale(SEX,scale=F)+nonwhite+INC_NEEDS+ANY_ABUSE_CHILD_DV+Years,data=mtea))
+lm.beta(lm(EXTERNAL_FU~EXTERNAL+EM_AWARE+scale(S1AGE,scale=F)*scale(SEX,scale=F)+nonwhite+INC_NEEDS+ANY_ABUSE_CHILD_DV+Years,data=mtea))
+lm.beta(lm(YINTERNAL_FU~YINTERNAL+EM_AWARE+scale(S1AGE,scale=F)*scale(SEX,scale=F)+nonwhite+INC_NEEDS+ANY_ABUSE_CHILD_DV+Years,data=mtea))
