@@ -2,12 +2,13 @@ library(effsize)
 library(ggplot2)
 
 #Read in data and extracted p factor scores
-ftt<-read.csv("Study1_data.csv")
-fscores<-read.table("ftp_nopt.txt")
-colnames(fscores)[9]<-"ID"
-colnames(fscores)[6]<-"P"
-ft<-merge(ftt,fscores[,c(9,6)],by="ID",all.x=T)
-colnames(ft)[2]<-"Sex"
+#ftt<-read.csv("Study1_data.csv")
+#fscores<-read.table("ftp_nopt.txt")
+#colnames(fscores)[9]<-"ID"
+#colnames(fscores)[6]<-"P"
+#ft<-merge(ftt,fscores[,c(9,6)],by="ID",all.x=T)
+#colnames(ft)[2]<-"Sex"
+ft<-read.csv("Study1_data.csv")
 
 #Descriptive statistics
 summary(ft)
@@ -67,3 +68,10 @@ summary(lm(P~Sex*Age+INC_NEEDS+nonwhite+Alexithymia,data=ft))
 scatter_theme<- theme(axis.title.x=element_text(size=28),axis.title.y=element_text(size=28),axis.text = element_text(size=24))
 ggplot(ft[-which(is.na(ft$Alexithymia)),c(4,14)], aes(x=Alexithymia-12, y=P)) + geom_point() +  geom_smooth(method=lm) + scatter_theme + ylab("P-factor") + xlab("Low Emotional Awareness")+xlim(0,40)+ylim(-2,2)
 
+#CBCL/YSR Problem Scores and Emotional Awareness
+ft$Extern<-ft$Externalizing_Problems_Total_YSR
+ft$Extern[which(ft$Externalizing_Problems_Total_CBCL>ft$Externalizing_Problems_Total_YSR)]<-ft$Externalizing_Problems_Total_CBCL[which(ft$Externalizing_Problems_Total_CBCL>ft$Externalizing_Problems_Total_YSR)]
+cor.test(ft$Alexithymia,ft$Extern)
+cor.test(ft$Alexithymia,ft$Internalizing_Problems_Total_YSR)
+summary(lm(Extern~Sex*Age+INC_NEEDS+nonwhite+Alexithymia,data=ft))
+summary(lm(Internalizing_Problems_Total_YSR~Sex*Age+INC_NEEDS+nonwhite+Alexithymia,data=ft))
